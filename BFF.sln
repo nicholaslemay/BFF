@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BFF", "BFF\BFF.csproj", "{F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BFF.Component.Tests", "BFF.Component.Tests\BFF.Component.Tests.csproj", "{984D7644-5E6F-4C70-9616-3E5CF910F9FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BFF.Contract.Tests", "BFF.Contract.Tests\BFF.Contract.Tests.csproj", "{6784612A-6C05-4E19-9FAD-F8A4296999E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{984D7644-5E6F-4C70-9616-3E5CF910F9FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{984D7644-5E6F-4C70-9616-3E5CF910F9FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{984D7644-5E6F-4C70-9616-3E5CF910F9FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6784612A-6C05-4E19-9FAD-F8A4296999E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6784612A-6C05-4E19-9FAD-F8A4296999E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6784612A-6C05-4E19-9FAD-F8A4296999E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6784612A-6C05-4E19-9FAD-F8A4296999E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

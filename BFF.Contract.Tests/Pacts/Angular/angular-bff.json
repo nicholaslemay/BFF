@@ -1,0 +1,50 @@
+{
+  "consumer": {
+    "name": "Angular"
+  },
+  "provider": {
+    "name": "BFF"
+  },
+  "interactions": [
+    {
+      "description": "a POST request to create a user",
+      "providerState": "request is valid",
+      "request": {
+        "method": "POST",
+        "path": "/public/v2/users",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "tony",
+          "email": "tony@gmail.com",
+          "gender": "male",
+          "status": "active"
+        },
+        "matchingRules": {
+          "$.body": {
+            "match": "type"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+        },
+        "body": {
+          "id": 33
+        },
+        "matchingRules": {
+          "$.body": {
+            "match": "type"
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}
