@@ -7,6 +7,24 @@
   },
   "interactions": [
     {
+      "description": "an invalid POST request to create a user",
+      "providerState": "request is missing fields",
+      "request": {
+        "method": "POST",
+        "path": "/public/v2/users",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+        }
+      }
+    },
+    {
       "description": "a POST request to create a user",
       "providerState": "request is valid",
       "request": {
@@ -17,7 +35,7 @@
         },
         "body": {
           "name": "tony",
-          "email": "tony@gmail.com",
+          "email": "tonye@gmail.com",
           "gender": "male",
           "status": "active"
         },

@@ -1,8 +1,11 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+using BFF.Users;
+using FluentValidation;
 
-app.MapGet("/", () => "Hello World!");
-app.MapPost("/public/v2/users", () => new {Id = new Random().Next()});
-app.Run();
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddValidatorsFromAssemblyContaining<Program>(lifetime: ServiceLifetime.Transient);
+
+var app = builder.Build();
+app.MapUserEndpoints()
+   .Run();
 
 public partial class Program { }
