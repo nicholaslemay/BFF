@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using BFF.Support;
@@ -22,9 +23,30 @@ public abstract class ValidationTest<TValidator, TValidated> where TValidator : 
     protected void ValidateFieldCannotBeNullOrEmpty(Expression<Func<TValidated, object>> expression)
     {
         ValidateValueIsInvalidForField(expression, null, Messages.RequiredValue);
+    }    
+    
+    protected void ValidateValuesAreValidForType<TProperty>(Expression<Func<TValidated, TProperty>> expression, IEnumerable<TProperty?> validValues)
+    {
+        foreach (var validValue in validValues)
+        {
+            ValidateValueValidForField(expression, validValue);
+        }
+       
     }
 
-    private void ValidateValueIsInvalidForField<TProperty>(Expression<Func<TValidated, TProperty>> expression, TProperty? value, string expectedErrorMessage)
+    private void ValidateValueValidForField<TProperty>(Expression<Func<TValidated, TProperty>> expression, TProperty? value)
+    {
+        var exampleToValidate = ValidExample();
+        try
+        {
+            WhenValidating(expression, exampleToValidate, value).Errors.Should().BeEmpty();
+        }
+        catch (ValidationTestException e)
+        {
+            ThrowFormattedException(value, expression, e);
+        }
+    }
+    protected void ValidateValueIsInvalidForField<TProperty>(Expression<Func<TValidated, TProperty>> expression, TProperty? value, string expectedErrorMessage)
     {
         var exampleToValidate = ValidExample();
         try

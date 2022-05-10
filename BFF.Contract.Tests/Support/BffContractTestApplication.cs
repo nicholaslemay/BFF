@@ -1,10 +1,13 @@
 using System;
 using System.Linq;
 using System.Net;
+using BFF.Contract.Tests.Database;
+using BFF.Support.Database;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -17,10 +20,7 @@ public class BffContractTestApplication : WebApplicationFactory<Program>
     private bool _disposed;
     private IHost? _host;
 
-    public void Run()
-    {
-        EnsureServer();
-    }
+    public void Run() => EnsureServer();
 
     public override IServiceProvider Services
     {
@@ -41,6 +41,14 @@ public class BffContractTestApplication : WebApplicationFactory<Program>
 
     protected override IHost CreateHost(IHostBuilder builder)
     {
+        builder.ConfigureServices(services =>
+        {
+            var descriptor = services.Single(
+                d => d.ServiceType == typeof(DbContextOptions<BffDb>));
+            services.Remove(descriptor);
+            services.AddSqlite<BffDb>($"Data Source={BffContractTestDBHelper.DatabaseFolderLocation}bff.db;Cache=Shared");
+        });
+        
         // Create the host for TestServer now before we
         // modify the builder to use Kestrel instead.
         var testHost = builder.Build();

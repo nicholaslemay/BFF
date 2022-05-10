@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using BFF.Users;
 using Xunit;
 
@@ -18,6 +17,13 @@ public class NewUserRequestValidatorTest : ValidationTest<NewUserRequestValidato
         ValidateFieldCannotBeNullOrEmpty(r=> r.status);
     }
 
+    [Fact]
+    public void ValidatesGendersIsInValidChoices()
+    {
+        ValidateValuesAreValidForType(r=> r.gender, NewUserRequest.ValidGenders);
+        ValidateValueIsInvalidForField(r=> r.gender, "SomeRandopmGender", "Invalid gender");
+    }
+    
     protected override NewUserRequest ValidExample() => 
         new("tony", "tony@gmail.com", "male", "active");
 }
