@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BFF.Contract.Tests", "BFF.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BFF.Tests", "BFF.Tests\BFF.Tests.csproj", "{5BB6B30A-6198-4B4A-AC3A-D9BB0610E2F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BFF.Database.Migrations", "BFF.Database.Migrations\BFF.Database.Migrations.csproj", "{5C3A204E-205D-4589-8073-D15A1E66413C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{5BB6B30A-6198-4B4A-AC3A-D9BB0610E2F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BB6B30A-6198-4B4A-AC3A-D9BB0610E2F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BB6B30A-6198-4B4A-AC3A-D9BB0610E2F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C3A204E-205D-4589-8073-D15A1E66413C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C3A204E-205D-4589-8073-D15A1E66413C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C3A204E-205D-4589-8073-D15A1E66413C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C3A204E-205D-4589-8073-D15A1E66413C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

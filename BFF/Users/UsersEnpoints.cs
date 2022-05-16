@@ -1,4 +1,3 @@
-using System.Data;
 using BFF.Support;
 using FluentValidation;
 using static BFF.Users.GenderType;

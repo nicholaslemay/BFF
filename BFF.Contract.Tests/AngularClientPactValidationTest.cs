@@ -1,7 +1,4 @@
-using System;
-using System.IO;
 using System.Threading.Tasks;
-using BFF.Contract.Tests.Database;
 using PactNet;
 using Xunit;
 using Xunit.Abstractions;

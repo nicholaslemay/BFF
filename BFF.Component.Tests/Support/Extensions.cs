@@ -1,6 +1,5 @@
 using System.Net.Http;
 using System.Net.Http.Json;
-using Microsoft.AspNetCore.Http;
 
 namespace BFF.Component.Tests.Support;
 

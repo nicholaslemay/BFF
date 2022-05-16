@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using BFF.Database.Migrations;
 using BFF.Support.Database;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -14,6 +15,7 @@ public class CompontentTestFixture : IDisposable
         Client = Application.CreateClient();
         DB = Application.Services.CreateScope().ServiceProvider.GetRequiredService<BffDb>();
         DatabaseCleaner = new DatabaseCleaner(DB);
+        BffDatabaseMigration = new BffDatabaseMigration(DB);
     }
 
     public void Dispose()
@@ -25,6 +27,7 @@ public class CompontentTestFixture : IDisposable
     public readonly BFFComponentTestApplication Application;
     public readonly DatabaseCleaner DatabaseCleaner;
     public readonly BffDb DB;
+    public readonly BffDatabaseMigration BffDatabaseMigration;
 }
 
 [CollectionDefinition("ComponentTest")]
@@ -40,6 +43,7 @@ public abstract class ComponentTest
     {
         _client = fixture.Client;
         _db = fixture.DB;
+        fixture.BffDatabaseMigration.Migrate();
         fixture.DatabaseCleaner.CleanDB();
     }
 }

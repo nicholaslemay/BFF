@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using BFF.Database.Migrations;
 using BFF.Support.Database;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -39,9 +40,9 @@ public class DatabaseTestFixture : IDisposable
     public DatabaseTestFixture()
     {
         Application = new BFFDatabaseTestApplication();
-        Client = Application.CreateClient();
         DB = Application.Services.CreateScope().ServiceProvider.GetRequiredService<BffDb>();
         DatabaseCleaner = new DatabaseCleaner(DB);
+        DatabaseMigration = new BffDatabaseMigration(DB);
     }
 
     public void Dispose()
@@ -53,6 +54,7 @@ public class DatabaseTestFixture : IDisposable
     public readonly BFFDatabaseTestApplication Application;
     public readonly DatabaseCleaner DatabaseCleaner;
     public readonly BffDb DB;
+    public readonly BffDatabaseMigration DatabaseMigration;
 }
 
 [CollectionDefinition("DatabaseTest")]
@@ -66,6 +68,7 @@ public abstract class DatabaseTest
     protected DatabaseTest(DatabaseTestFixture fixture)
     {
         _db = fixture.DB;
+        fixture.DatabaseMigration.Migrate();
         fixture.DatabaseCleaner.CleanDB();
     }
 }

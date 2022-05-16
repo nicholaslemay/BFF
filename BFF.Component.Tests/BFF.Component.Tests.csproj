@@ -23,6 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\BFF.Database.Migrations\BFF.Database.Migrations.csproj" />
       <ProjectReference Include="..\BFF\BFF.csproj" />
     </ItemGroup>
 
