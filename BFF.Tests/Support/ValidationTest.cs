@@ -7,7 +7,7 @@ using FluentAssertions;
 using FluentValidation;
 using FluentValidation.TestHelper;
 
-namespace BFF.Tests.Users;
+namespace BFF.Tests.Support;
 
 public abstract class ValidationTest<TValidator, TValidated> where TValidator : IValidator<TValidated>, new() where TValidated : class
 {
@@ -20,7 +20,7 @@ public abstract class ValidationTest<TValidator, TValidated> where TValidator : 
         result.Errors.Should().BeEmpty("Exemple valide devrait etre sans erreur de validation");
     }
 
-    protected void ValidateFieldCannotBeNullOrEmpty(Expression<Func<TValidated, object>> expression)
+    protected void ValidateFieldCannotBeNullOrEmpty(Expression<Func<TValidated, object?>> expression)
     {
         ValidateValueIsInvalidForField(expression, null, Messages.RequiredValue);
     }    
@@ -94,17 +94,17 @@ public abstract class ValidationTest<TValidator, TValidated> where TValidator : 
         return value.Substring(indexOfFirstDot + 1);
     }
 
-    private static void SetProperty(string compoundProperty, object target, object value)
+    private static void SetProperty(string compoundProperty, object target, object? value)
     {
         var bits = compoundProperty.Split('.');
         for (var i = 0; i < bits.Length - 1; i++)
         {
-            var propertyToGet = target.GetType().GetProperty(bits[i]);
+            var propertyToGet = target!.GetType().GetProperty(bits[i]);
             if(propertyToGet == null)
                 throw new Exception($"{bits[i]} de {compoundProperty} n'est pas définie");
             target = propertyToGet.GetValue(target, null);
         }
-        var propertyToSet = target.GetType().GetProperty(bits.Last());
+        var propertyToSet = target!.GetType().GetProperty(bits.Last());
         if(propertyToSet == null)
             throw new Exception($"{bits.Last()} de {compoundProperty} n'est pas définie");
             

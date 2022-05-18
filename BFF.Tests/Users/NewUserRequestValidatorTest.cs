@@ -1,3 +1,4 @@
+using BFF.Tests.Support;
 using BFF.Users;
 using Xunit;
 
@@ -11,17 +12,17 @@ public class NewUserRequestValidatorTest : ValidationTest<NewUserRequestValidato
     [Fact]
     public void ValidatesPresenceOfEachRequiredFields()
     {
-        ValidateFieldCannotBeNullOrEmpty(r=> r.name);
-        ValidateFieldCannotBeNullOrEmpty(r=> r.email);
-        ValidateFieldCannotBeNullOrEmpty(r=> r.gender);
-        ValidateFieldCannotBeNullOrEmpty(r=> r.status);
+        ValidateFieldCannotBeNullOrEmpty(r=> r.Name);
+        ValidateFieldCannotBeNullOrEmpty(r=> r.Email);
+        ValidateFieldCannotBeNullOrEmpty(r=> r.Gender);
+        ValidateFieldCannotBeNullOrEmpty(r=> r.Status);
     }
 
     [Fact]
     public void ValidatesGendersIsInValidChoices()
     {
-        ValidateValuesAreValidForType(r=> r.gender, NewUserRequest.ValidGenders);
-        ValidateValueIsInvalidForField(r=> r.gender, "SomeRandopmGender", "Invalid gender");
+        ValidateValuesAreValidForType(r=> r.Gender, NewUserRequest.ValidGenders);
+        ValidateValueIsInvalidForField(r=> r.Gender, "SomeRandopmGender", "Invalid gender");
     }
     
     protected override NewUserRequest ValidExample() => 

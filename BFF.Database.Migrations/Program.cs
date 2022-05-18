@@ -6,16 +6,19 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-var app = new BFFDatabaseTestApplication();
+var app = new BffDatabaseTestApplication();
 var db = app.Services.CreateScope().ServiceProvider.GetRequiredService<BffDb>();
 
-new BffDatabaseMigration(db).Migrate();
-public class BFFDatabaseTestApplication : WebApplicationFactory<BFF.Program>
+await new BffDatabaseMigration(db).MigrateAsync();
+namespace BFF.Database.Migrations
 {
-    protected override IHost CreateHost(IHostBuilder builder)
+    public class BffDatabaseTestApplication : WebApplicationFactory<Program>
     {
-        builder.UseEnvironment("DatabaseMigration");
-        return base.CreateHost(builder);
+        protected override IHost CreateHost(IHostBuilder builder)
+        {
+            builder.UseEnvironment("DatabaseMigration");
+            return base.CreateHost(builder);
+        }
     }
 }
 

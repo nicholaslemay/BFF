@@ -31,12 +31,12 @@ public class ValidUserCreationUserTest : ComponentTest
         _response.Should().HaveStatusCode(HttpStatusCode.OK);
 
     [Fact]
-    public void StoresCreatedUserInDB()
+    public void StoresCreatedUserInDb()
     {
         Db.Users.Count().Should().Be(1);
         var storedUser = Db.Users.First();
         storedUser.Email.Should().Be("tony@hotmail.com");
-        storedUser.Id.Should().Be(_response.ContentAs<NewUserResponse>().id);
+        storedUser.Id.Should().Be(_response.ContentAs<NewUserResponse>().Id);
     }
     
     [Fact]
@@ -46,9 +46,9 @@ public class ValidUserCreationUserTest : ComponentTest
         
         var body = FakeCommunicationService.LogEntries.Last().RequestMessage.Body;
 
-        var sentConfirmation = JsonSerializer.Deserialize<AccountCreationConfirmation>(body);
-        sentConfirmation.email.Should().Be("tony@hotmail.com");
-        sentConfirmation.name.Should().Be("tony");
+        var sentConfirmation = body.AsDeserializedJson<AccountCreationConfirmation>();
+        sentConfirmation!.Email.Should().Be("tony@hotmail.com");
+        sentConfirmation.Name.Should().Be("tony");
     }
 
     private HttpResponseMessage WhenCreating(NewUserRequest userToBeCreated) =>

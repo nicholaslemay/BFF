@@ -1,8 +1,8 @@
 using System.IO;
 
-namespace BFF.Contract.Tests.Database;
+namespace BFF.Component.Tests.Support.Database;
 
-public class BffComponentTestDBHelper
+public static class BffComponentTestDbHelper
 { 
     public static string DatabaseFolderLocation => $"{Directory.GetCurrentDirectory()}/../../../Support/Database/";
 }

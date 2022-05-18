@@ -9,7 +9,7 @@ public class DatabaseCleaner{
 
     public DatabaseCleaner(BffDb db) => _db = db;
 
-    public void CleanDB() => CleanDBAsync().Wait();
+    public void CleanDb() => CleanDbAsync().Wait();
 
-    private async Task CleanDBAsync() => await _db.Database.ExecuteSqlRawAsync("DELETE FROM Users;");
+    private async Task CleanDbAsync() => await _db.Database.ExecuteSqlRawAsync("DELETE FROM Users;");
 }

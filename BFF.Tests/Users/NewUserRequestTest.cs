@@ -10,8 +10,8 @@ public class NewUserRequestTest
     public void MapsRequest()
     {
         var request = ValidUserRequest();
-        request.AsUser().Email.Should().Be(request.email);
-        request.AsUser().Name.Should().Be(request.name);
+        request.AsUser().Email.Should().Be(request.Email);
+        request.AsUser().Name.Should().Be(request.Name);
     }
 
     [Theory]
@@ -20,7 +20,7 @@ public class NewUserRequestTest
     [InlineData("other", GenderType.Other)]
     public void MapsEachGender(string gender, GenderType expectedGender)
     {
-        var request = ValidUserRequest() with { gender = gender };
+        var request = ValidUserRequest() with { Gender = gender };
         request.AsUser().Gender.Should().Be(expectedGender);
     }
 

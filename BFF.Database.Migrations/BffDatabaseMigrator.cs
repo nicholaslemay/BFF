@@ -9,7 +9,7 @@ public class BffDatabaseMigration
 
     public BffDatabaseMigration(BffDb db) => _db = db;
 
-    public async Task Migrate()
+    public async Task MigrateAsync()
     {
         Console.WriteLine("Migrating database...");
         await _db.Database.MigrateAsync();

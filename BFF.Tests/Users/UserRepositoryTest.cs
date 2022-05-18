@@ -16,28 +16,28 @@ public class UserRepositoryTest : DatabaseTest
 
     public UserRepositoryTest(DatabaseTestFixture fixture) : base(fixture)
     {
-        _userRepository = new UserRepository(_db);
+        _userRepository = new UserRepository(Db);
     }
 
     [Fact]
     public async Task CanStoreAUserInDb()
     {
-        var user = new User{Email = "bobby@hotmail.com", Gender = Male, Name = "bobby"};  
-        _userRepository.AddUser(user);
+        var user = new User("bobby","bobby@hotmail.com", Male);  
+        await _userRepository.AddUserAsync(user);
 
-        var savedUser = _db.Users.First();
+        var savedUser = Db.Users.First();
         savedUser.Email.Should().Be(user.Email);
         savedUser.Name.Should().Be(user.Name);
         savedUser.Gender.Should().Be("M");
     }
     
     [Fact]
-    public async Task AllUsersHaveAUniqueId()
+    public void AllUsersHaveAUniqueId()
     {
-        var user = new User{Email = "tony@hotmail.com", Gender = Male, Name = "tony"};  
+        var user = new User("bobby","bobby@hotmail.com", Male);  
         
         List<int> ids = new();
-        30.Times(async ()=> ids.Add(await _userRepository.AddUser(user)));
+        30.Times(async ()=> ids.Add(await _userRepository.AddUserAsync(user)));
 
         ids.Should().HaveCount(30).And.OnlyHaveUniqueItems();
     }

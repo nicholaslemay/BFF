@@ -1,33 +1,33 @@
-using System.Threading.Tasks;
+using BFF.Contract.Tests.Support;
 using PactNet;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
 using Xunit;
 using Xunit.Abstractions;
-using static BFF.Contract.Tests.PactHelper;
+using static BFF.Contract.Tests.Support.PactHelper;
 
 namespace BFF.Contract.Tests;
 
 public class AngularClientPactValidationTest
 {
-    private readonly ITestOutputHelper output;
+    private readonly ITestOutputHelper _output;
     private readonly WireMockServer _fakeCommunicationService;
 
     public AngularClientPactValidationTest(ITestOutputHelper output)
     {
-        this.output = output;
+        _output = output;
         _fakeCommunicationService = WireMockServer.Start(777);
         GivenCallsToCommunicationServiceSucced();
     }
 
     [Fact]
-    public async Task RespectContractsWithAngularCLient()
+    public void RespectContractsWithAngularCLient()
     {
         var app = new BffContractTestApplication();
         app.Run();
 
-        new PactVerifier(BffPactVerifierConfig.Build(output))
+        new PactVerifier(BffPactVerifierConfig.Build(_output))
             .ServiceProvider("BFF", BffContractTestApplication.BaseUrl)
             .HonoursPactWith("Angular")
             .PactUri($"{PactFolderLocation}/Angular/angular-bff.json")

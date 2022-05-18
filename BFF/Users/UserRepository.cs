@@ -5,7 +5,7 @@ namespace BFF.Users;
 
 public interface IUserRepository
 {
-    Task<int> AddUser(User user);
+    Task<int> AddUserAsync(User user);
 }
 
 public class UserRepository : IUserRepository
@@ -14,7 +14,7 @@ public class UserRepository : IUserRepository
 
     public UserRepository(BffDb db) => _db = db;
 
-    public async Task<int>  AddUser(User u)
+    public async Task<int>  AddUserAsync(User u)
     {
         var newRecord = u.AsRecord();
         _db.Users.Add(newRecord);
@@ -36,6 +36,11 @@ public static class UserRecordMapper
                 Female => "F",
                 Male => "M",
                 Other => "O",
+                _ => throw new UnknownGenderException()
             }
         };
+}
+
+public class UnknownGenderException : Exception
+{
 }

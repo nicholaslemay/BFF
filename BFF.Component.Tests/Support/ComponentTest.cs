@@ -12,24 +12,24 @@ public class CompontentTestFixture : IDisposable
 {
     public CompontentTestFixture()
     {
-        Application = new BFFComponentTestApplication();
-        Client = Application.CreateClient();
-        DB = Application.Services.CreateScope().ServiceProvider.GetRequiredService<BffDb>();
-        DatabaseCleaner = new DatabaseCleaner(DB);
-        BffDatabaseMigration = new BffDatabaseMigration(DB);
+        _application = new BffComponentTestApplication();
+        Client = _application.CreateClient();
+        Db = _application.Services.CreateScope().ServiceProvider.GetRequiredService<BffDb>();
+        DatabaseCleaner = new DatabaseCleaner(Db);
+        BffDatabaseMigration = new BffDatabaseMigration(Db);
         FakeCommunicationService = WireMockServer.Start(777);
     }
 
     public void Dispose()
     {
         FakeCommunicationService.Stop();
-        Application.Dispose();
+        _application.Dispose();
     }
 
     public readonly HttpClient Client;
-    private readonly BFFComponentTestApplication Application;
+    private readonly BffComponentTestApplication _application;
     public readonly DatabaseCleaner DatabaseCleaner;
-    public readonly BffDb DB;
+    public readonly BffDb Db;
     public readonly BffDatabaseMigration BffDatabaseMigration;
     public readonly WireMockServer FakeCommunicationService;
 }
@@ -47,11 +47,11 @@ public abstract class ComponentTest
     protected ComponentTest(CompontentTestFixture fixture)
     {
         Client = fixture.Client;
-        Db = fixture.DB;
+        Db = fixture.Db;
         FakeCommunicationService = fixture.FakeCommunicationService;
         
         FakeCommunicationService.ResetLogEntries();
-        fixture.BffDatabaseMigration.Migrate();
-        fixture.DatabaseCleaner.CleanDB();
+        fixture.BffDatabaseMigration.MigrateAsync();
+        fixture.DatabaseCleaner.CleanDb();
     }
 }

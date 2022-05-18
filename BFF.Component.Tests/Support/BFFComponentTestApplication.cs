@@ -6,12 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using static BFF.Contract.Tests.Database.BffComponentTestDBHelper;
-using ConfigurationBuilder = Microsoft.Extensions.Configuration.ConfigurationBuilder;
+using static BFF.Component.Tests.Support.Database.BffComponentTestDbHelper;
 
 namespace BFF.Component.Tests.Support;
 
-public class BFFComponentTestApplication : WebApplicationFactory<Program>
+public class BffComponentTestApplication : WebApplicationFactory<Program>
 {
     protected override IHost CreateHost(IHostBuilder builder)
     {

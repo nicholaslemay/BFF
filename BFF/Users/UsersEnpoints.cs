@@ -17,7 +17,7 @@ public static class UsersEnpoints
                     return ValidationProblem(validationResult.ToDictionary());
                 
                 var user = request.AsUser();
-                var userId = await userRepository.AddUser(user);
+                var userId = await userRepository.AddUserAsync(user);
 
                 await communicationServiceClient.SendAccountCreationConfirmationAsync(new AccountCreationConfirmation(user.Email, user.Name));
                 
@@ -34,28 +34,22 @@ public class NewUserRequestValidator : AbstractValidator<NewUserRequest>
 {
     public NewUserRequestValidator()
     {
-        RuleFor(x => x.email).NotEmpty().WithMessage(Messages.RequiredValue);
-        RuleFor(x => x.name).NotEmpty().WithMessage(Messages.RequiredValue);
-        RuleFor(x => x.gender).NotEmpty().WithMessage(Messages.RequiredValue);
-        RuleFor(x => x.status).NotEmpty().WithMessage(Messages.RequiredValue);
-        RuleFor(x => x.gender).Must(g => ValidGenders.Contains(g)).WithMessage("Invalid gender");
+        RuleFor(x => x.Email).NotEmpty().WithMessage(Messages.RequiredValue);
+        RuleFor(x => x.Name).NotEmpty().WithMessage(Messages.RequiredValue);
+        RuleFor(x => x.Gender).NotEmpty().WithMessage(Messages.RequiredValue);
+        RuleFor(x => x.Status).NotEmpty().WithMessage(Messages.RequiredValue);
+        RuleFor(x => x.Gender).Must(g => ValidGenders.Contains(g)).WithMessage("Invalid gender");
     }
 }
 
-public record NewUserRequest(string? name, string? email, string? gender, string? status)
+public record NewUserRequest(string? Name, string? Email, string? Gender, string? Status)
 {
     private static readonly Dictionary<string, GenderType> GendersMapping = new(){{"female", Female}, {"male", Male}, {"other", Other}};
     public static readonly IReadOnlyList<string> ValidGenders = GendersMapping.Keys.ToList();
-    
-    public User AsUser() =>
-        new()
-        {
-            Name = name,
-            Email = email,
-            Gender = GendersMapping[gender]
-        };
+
+    public User AsUser() => new(Name!, Email!, GendersMapping[Gender!]);
 }
 
-public record NewUserResponse(int id);
+public record NewUserResponse(int Id);
 
 

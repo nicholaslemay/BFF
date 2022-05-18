@@ -30,7 +30,7 @@ public class CommunicationServiceClientContractTest
     public async Task DoTheDew()
     {
         _mockCommunicationService
-            .Given("Creating an account creation confirmation ")
+            !.Given("Creating an account creation confirmation ")
             .UponReceiving("A valid POST request")
             .With(new ProviderServiceRequest
             {
@@ -57,5 +57,5 @@ public class CommunicationServiceClientContractTest
         _pactBuilder.Build();
     }
 
-    private static HttpClient NewHttpClient() => new HttpClient { BaseAddress = new Uri("http://localhost:777/") };
+    private static HttpClient NewHttpClient() => new() { BaseAddress = new Uri("http://localhost:777/") };
 }

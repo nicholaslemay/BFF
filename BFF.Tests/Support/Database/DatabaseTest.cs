@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using BFF.Database.Migrations;
 using BFF.Support.Database;
@@ -17,9 +16,9 @@ public class DatabaseCleaner{
 
     public DatabaseCleaner(BffDb db) => _db = db;
 
-    public void CleanDB() => CleanDBAsync().Wait();
+    public void CleanDb() => CleanDbAsync().Wait();
 
-    private async Task CleanDBAsync() => await _db.Database.ExecuteSqlRawAsync("DELETE FROM Users;");
+    private async Task CleanDbAsync() => await _db.Database.ExecuteSqlRawAsync("DELETE FROM Users;");
 }
 public class BFFDatabaseTestApplication : WebApplicationFactory<Program>
 {
@@ -30,7 +29,7 @@ public class BFFDatabaseTestApplication : WebApplicationFactory<Program>
             var descriptor = services.Single(
                 d => d.ServiceType == typeof(DbContextOptions<BffDb>));
             services.Remove(descriptor);
-            services.AddSqlite<BffDb>($"Data Source={BFFTestDBHelper.DatabaseFolderLocation}bff.db;Cache=Shared");
+            services.AddSqlite<BffDb>($"Data Source={BffTestDbHelper.DatabaseFolderLocation}bff.db;Cache=Shared");
         });
         return base.CreateHost(builder);
     }
@@ -39,21 +38,20 @@ public class DatabaseTestFixture : IDisposable
 {
     public DatabaseTestFixture()
     {
-        Application = new BFFDatabaseTestApplication();
-        DB = Application.Services.CreateScope().ServiceProvider.GetRequiredService<BffDb>();
-        DatabaseCleaner = new DatabaseCleaner(DB);
-        DatabaseMigration = new BffDatabaseMigration(DB);
+        _application = new BFFDatabaseTestApplication();
+        Db = _application.Services.CreateScope().ServiceProvider.GetRequiredService<BffDb>();
+        DatabaseCleaner = new DatabaseCleaner(Db);
+        DatabaseMigration = new BffDatabaseMigration(Db);
     }
 
     public void Dispose()
     {
-        Application.Dispose();
+        _application.Dispose();
     }
 
-    public readonly HttpClient Client;
-    public readonly BFFDatabaseTestApplication Application;
+    private readonly BFFDatabaseTestApplication _application;
     public readonly DatabaseCleaner DatabaseCleaner;
-    public readonly BffDb DB;
+    public readonly BffDb Db;
     public readonly BffDatabaseMigration DatabaseMigration;
 }
 
@@ -63,12 +61,12 @@ public class DatabaseTestCollection : ICollectionFixture<DatabaseTestFixture> { 
 [Collection("DatabaseTest")]
 public abstract class DatabaseTest
 {
-    protected readonly BffDb _db;
+    protected readonly BffDb Db;
 
     protected DatabaseTest(DatabaseTestFixture fixture)
     {
-        _db = fixture.DB;
-        fixture.DatabaseMigration.Migrate();
-        fixture.DatabaseCleaner.CleanDB();
+        Db = fixture.Db;
+        fixture.DatabaseMigration.MigrateAsync().Wait();
+        fixture.DatabaseCleaner.CleanDb();
     }
 }

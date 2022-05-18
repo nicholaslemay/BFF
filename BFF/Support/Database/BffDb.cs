@@ -12,8 +12,8 @@ public class BffDb : DbContext
 public class UserRecord 
 {
     public int Id { get; set; }
-    public string Email { get; set; } = null!;
-     public string Name { get; set; } = null!;
+    public string Email { get; init; } = null!;
+     public string Name { get; init; } = null!;
      //public string Status { get; set; } = null!;
-     public string Gender { get; set; } = null!;
+     public string Gender { get; init; } = null!;
 }

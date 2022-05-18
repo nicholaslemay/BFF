@@ -6,7 +6,7 @@ using BFF.Users;
 using FluentAssertions;
 using Xunit;
 
-namespace BFF.Component.Tests.Users;
+namespace BFF.Component.Tests.Users.Creation;
 
 public class InvalidUserCreationTest : ComponentTest
 {

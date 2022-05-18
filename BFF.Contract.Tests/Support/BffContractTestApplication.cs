@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Net;
-using BFF.Contract.Tests.Database;
+using BFF.Contract.Tests.Support.Database;
 using BFF.Support.Database;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace BFF.Contract.Tests;
+namespace BFF.Contract.Tests.Support;
 
 public class BffContractTestApplication : WebApplicationFactory<Program>
 {
@@ -51,7 +51,7 @@ public class BffContractTestApplication : WebApplicationFactory<Program>
             var descriptor = services.Single(
                 d => d.ServiceType == typeof(DbContextOptions<BffDb>));
             services.Remove(descriptor);
-            services.AddSqlite<BffDb>($"Data Source={BffContractTestDBHelper.DatabaseFolderLocation}bff.db;Cache=Shared");
+            services.AddSqlite<BffDb>($"Data Source={BffContractTestDbHelper.DatabaseFolderLocation}bff.db;Cache=Shared");
         });
         
         // Create the host for TestServer now before we
@@ -64,7 +64,7 @@ public class BffContractTestApplication : WebApplicationFactory<Program>
         // otherwise due to the way the deferred host builder works
         // for minimal hosting, the server will not get "initialized
         // enough" for the address it is listening on to be available.
-        builder.ConfigureWebHost((p) => p.UseKestrel());
+        builder.ConfigureWebHost(p => p.UseKestrel());
         _host = builder.Build();
         _host.Start();
         

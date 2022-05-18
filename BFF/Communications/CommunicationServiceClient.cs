@@ -16,6 +16,4 @@ public class CommunicationServiceClient : ICommunicationServiceClient{
     }
 }
 
-public record AccountCreationConfirmation(string email, string name)
-{
-}
+public record AccountCreationConfirmation(string Email, string Name);

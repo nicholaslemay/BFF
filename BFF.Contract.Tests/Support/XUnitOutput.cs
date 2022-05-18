@@ -1,19 +1,19 @@
 using PactNet.Infrastructure.Outputters;
 using Xunit.Abstractions;
 
-namespace BFF.Contract.Tests;
+namespace BFF.Contract.Tests.Support;
 
 public class XUnitOutput : IOutput
 {
-    private readonly ITestOutputHelper output;
+    private readonly ITestOutputHelper _output;
 
     public XUnitOutput(ITestOutputHelper output)
     {
-        this.output = output;
+        _output = output;
     }
 
     public void WriteLine(string line)
     {
-        output.WriteLine(line);
+        _output.WriteLine(line);
     }
 }
