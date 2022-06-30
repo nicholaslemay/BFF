@@ -6,6 +6,15 @@ namespace BFF.Tests.Users;
 
 public class UserRecordMapperTest
 {
+    [Fact]
+    public void MapsUserToRecord()
+    {
+        var user = AValidUser();
+        
+        user.AsRecord().Name.Should().Be(user.Name);
+        user.AsRecord().Email.Should().Be(user.Email);
+    }
+    
     [Theory]
     [InlineData(GenderType.Female, "F")]
     [InlineData(GenderType.Male, "M")]
@@ -14,17 +23,6 @@ public class UserRecordMapperTest
     {
         var record = (AValidUser() with {Gender = type}).AsRecord();
         record.Gender.Should().Be(expectedValue);
-    }
-
-
-
-    [Fact]
-    public void MapsUserToRecord()
-    {
-        var user = AValidUser();
-        
-        user.AsRecord().Name.Should().Be(user.Name);
-        user.AsRecord().Email.Should().Be(user.Email);
     }
     
     private static User AValidUser()

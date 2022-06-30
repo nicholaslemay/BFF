@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BFF.Support.Database;
 using BFF.Tests.Support;
 using BFF.Tests.Support.Database;
 using BFF.Users;
@@ -22,9 +23,13 @@ public class UserRepositoryTest : DatabaseTest
     [Fact]
     public async Task CanStoreAUserInDb()
     {
-        var user = new User("bobby","bobby@hotmail.com", Male);  
-        await _userRepository.AddUserAsync(user);
+        var unitOfWork = new UnitOfWork(Db);
+        var tx = await unitOfWork.BeginTransactionAsync();
+        var user = new User("bobby","bobby@hotmail.com", Male);
+        var id = await _userRepository.AddUserAsync(user);
 
+        id.Should().NotBe(0);
+        await tx.CommitAsync();
         var savedUser = Db.Users.First();
         savedUser.Email.Should().Be(user.Email);
         savedUser.Name.Should().Be(user.Name);

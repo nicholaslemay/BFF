@@ -47,7 +47,7 @@ public class CommunicationServiceClientContractTest
                 }
             }).WillRespondWith(new ProviderServiceResponse
             {
-                Status = 201
+                Status = 200
             });
 
         var client = new CommunicationServiceClient(NewHttpClient());

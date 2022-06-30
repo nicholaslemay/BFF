@@ -14,7 +14,7 @@ public class UserRepository : IUserRepository
 
     public UserRepository(BffDb db) => _db = db;
 
-    public async Task<int>  AddUserAsync(User u)
+    public async Task<int> AddUserAsync(User u)
     {
         var newRecord = u.AsRecord();
         _db.Users.Add(newRecord);
